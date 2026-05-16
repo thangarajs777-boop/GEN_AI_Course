@@ -1,0 +1,225 @@
+
+Week1 assignment
+Quiz app in streamlit :
+
+
+import streamlit as st
+
+st.title("Python Quiz App - 25 Questions")
+
+score = 0
+
+# Question 1
+q1 = st.radio(
+    "1. What is the capital of India?",
+    ["Mumbai", "Delhi", "Chennai", "Bangalore"]
+)
+if q1 == "Delhi":
+    score += 1
+
+# Question 2
+q2 = st.radio(
+    "2. Which keyword is used to create a function in Python?",
+    ["func", "define", "def", "function"]
+)
+if q2 == "def":
+    score += 1
+
+# Question 3
+q3 = st.radio(
+    "3. Which language is used for Streamlit?",
+    ["Java", "Python", "C++", "PHP"]
+)
+if q3 == "Python":
+    score += 1
+
+# Question 4
+q4 = st.radio(
+    "4. Which symbol is used for comments in Python?",
+    ["//", "#", "/*", "--"]
+)
+if q4 == "#":
+    score += 1
+
+# Question 5
+q5 = st.radio(
+    "5. What is the output type of input()?",
+    ["int", "float", "string", "boolean"]
+)
+if q5 == "string":
+    score += 1
+
+# Question 6
+q6 = st.radio(
+    "6. Which function displays output in Python?",
+    ["echo()", "show()", "print()", "display()"]
+)
+if q6 == "print()":
+    score += 1
+
+# Question 7
+q7 = st.radio(
+    "7. Which operator is used for addition?",
+    ["+", "-", "*", "/"]
+)
+if q7 == "+":
+    score += 1
+
+# Question 8
+q8 = st.radio(
+    "8. Which collection is immutable?",
+    ["List", "Dictionary", "Tuple", "Set"]
+)
+if q8 == "Tuple":
+    score += 1
+
+# Question 9
+q9 = st.radio(
+    "9. Which keyword is used for loops?",
+    ["repeat", "for", "loop", "iterate"]
+)
+if q9 == "for":
+    score += 1
+
+# Question 10
+q10 = st.radio(
+    "10. Which function gives length of list?",
+    ["size()", "count()", "len()", "length()"]
+)
+if q10 == "len()":
+    score += 1
+
+# Question 11
+q11 = st.radio(
+    "11. HTML stands for?",
+    ["Hyper Text Markup Language", "High Text Language", "Home Tool Markup Language", "Hyperlinks Text Management Language"]
+)
+if q11 == "Hyper Text Markup Language":
+    score += 1
+
+# Question 12
+q12 = st.radio(
+    "12. CSS is used for?",
+    ["Programming", "Database", "Styling", "Server"]
+)
+if q12 == "Styling":
+    score += 1
+
+# Question 13
+q13 = st.radio(
+    "13. Which company developed Python?",
+    ["Microsoft", "Apple", "Google", "Python Software Foundation"]
+)
+if q13 == "Python Software Foundation":
+    score += 1
+
+# Question 14
+q14 = st.radio(
+    "14. Which keyword is used for condition checking?",
+    ["if", "loop", "switch", "case"]
+)
+if q14 == "if":
+    score += 1
+
+# Question 15
+q15 = st.radio(
+    "15. Which datatype stores True or False?",
+    ["int", "str", "bool", "float"]
+)
+if q15 == "bool":
+    score += 1
+
+# Question 16
+q16 = st.radio(
+    "16. Which method adds item to list?",
+    ["insert()", "push()", "append()", "add()"]
+)
+if q16 == "append()":
+    score += 1
+
+# Question 17
+q17 = st.radio(
+    "17. Which keyword is used to import modules?",
+    ["include", "using", "import", "require"]
+)
+if q17 == "import":
+    score += 1
+
+# Question 18
+q18 = st.radio(
+    "18. Which operator is used for multiplication?",
+    ["+", "-", "*", "%"]
+)
+if q18 == "*":
+    score += 1
+
+# Question 19
+q19 = st.radio(
+    "19. Streamlit is mainly used for?",
+    ["Game Development", "Mobile Apps", "Web Apps", "Operating Systems"]
+)
+if q19 == "Web Apps":
+    score += 1
+
+# Question 20
+q20 = st.radio(
+    "20. Which keyword is used to define class?",
+    ["class", "object", "define", "struct"]
+)
+if q20 == "class":
+    score += 1
+
+# Question 21
+q21 = st.radio(
+    "21. Which loop runs until condition becomes false?",
+    ["for", "repeat", "while", "loop"]
+)
+if q21 == "while":
+    score += 1
+
+# Question 22
+q22 = st.radio(
+    "22. Which function converts string to integer?",
+    ["str()", "float()", "bool()", "int()"]
+)
+if q22 == "int()":
+    score += 1
+
+# Question 23
+q23 = st.radio(
+    "23. Python files use which extension?",
+    [".java", ".py", ".html", ".cpp"]
+)
+if q23 == ".py":
+    score += 1
+
+# Question 24
+q24 = st.radio(
+    "24. Which symbol is used for division?",
+    ["*", "-", "/", "+"]
+)
+if q24 == "/":
+    score += 1
+
+# Question 25
+q25 = st.radio(
+    "25. Which company created Streamlit?",
+    ["Google", "Microsoft", "Streamlit Inc", "Amazon"]
+)
+if q25 == "Streamlit Inc":
+    score += 1
+
+# Submit Button
+if st.button("Submit Quiz"):
+
+    st.success(f"Your Score: {score}/25")
+
+    if score >= 20:
+        st.balloons()
+        st.success("Excellent Performance!")
+    elif score >= 15:
+        st.info("Very Good!")
+    elif score >= 10:
+        st.warning("Good Try!")
+    else:
+        st.error("Keep Practicing!")
