@@ -1,0 +1,47 @@
+import pyautogui
+import time
+
+# Wait before starting
+time.sleep(3)
+
+# Open Start Menu
+pyautogui.press('win')
+
+# Type Chrome
+pyautogui.write('chrome', interval=0.1)
+
+# Open Chrome
+pyautogui.press('enter')
+
+# Wait for Chrome profile page
+time.sleep(5)
+
+# Move to Guest mode button
+pyautogui.moveTo(112, 255, duration=1)
+
+# Right click on Guest mode
+pyautogui.rightClick()
+
+# Wait
+time.sleep(2)
+
+# Click Guest mode again to open
+pyautogui.click(1037, 957)
+
+# Wait for Guest Chrome window
+time.sleep(5)
+
+# Click inside browser window
+pyautogui.click(500, 300)
+
+# Focus address bar
+pyautogui.hotkey('ctrl', 'l')
+
+# Wait
+time.sleep(1)
+
+# Type search text
+pyautogui.write('Cricbuzz today match', interval=0.1)
+
+# Press Enter
+pyautogui.press('enter')

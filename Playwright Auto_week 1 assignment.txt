@@ -1,0 +1,27 @@
+from playwright.sync_api import sync_playwright
+
+with sync_playwright() as p:
+
+    # Open browser
+    browser = p.chromium.launch(headless=False)
+
+    # Open new tab
+    page = browser.new_page()
+
+    # Open YouTube
+    page.goto("https://www.youtube.com")
+
+    # Wait for page load
+    page.wait_for_timeout(5000)
+
+    # Type search text
+    page.fill('input[name="search_query"]', 'Coding for python')
+
+    # Press Enter
+    page.keyboard.press("Enter")
+
+    # Wait 20 seconds
+    page.wait_for_timeout(20000)
+
+    # Close browser
+    browser.close()

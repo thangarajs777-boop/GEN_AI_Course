@@ -1,0 +1,116 @@
+import streamlit as st
+
+# Title
+st.title("Python Quiz Application")
+
+# Questions and Answers
+questions = {
+
+    "1. What is the extension of Python file?":
+    {
+        "options": [".py", ".java", ".html", ".cpp"],
+        "answer": ".py"
+    },
+
+    "2. Which keyword is used for function in Python?":
+    {
+        "options": ["fun", "define", "def", "function"],
+        "answer": "def"
+    },
+
+    "3. Which data type is immutable?":
+    {
+        "options": ["list", "set", "dictionary", "tuple"],
+        "answer": "tuple"
+    },
+
+    "4. Which function is used for output?":
+    {
+        "options": ["input()", "display()", "print()", "show()"],
+        "answer": "print()"
+    },
+
+    "5. Which loop is used in Python?":
+    {
+        "options": ["for", "while", "both", "none"],
+        "answer": "both"
+    },
+
+    "6. Which symbol is used for comments?":
+    {
+        "options": ["//", "#", "/* */", "--"],
+        "answer": "#"
+    },
+
+    "7. Which module is used for automation?":
+    {
+        "options": ["pyautogui", "numpy", "pandas", "tkinter"],
+        "answer": "pyautogui"
+    },
+
+    "8. Which package is used for web apps?":
+    {
+        "options": ["flask", "streamlit", "django", "all"],
+        "answer": "all"
+    },
+
+    "9. Which function is used to read Excel file?":
+    {
+        "options": ["read_csv()", "read_excel()", "open()", "load()"],
+        "answer": "read_excel()"
+    },
+
+    "10. Which company developed Python?":
+    {
+        "options": ["Google", "Microsoft", "Python Software Foundation", "Apple"],
+        "answer": "Python Software Foundation"
+    }
+
+}
+
+# Store score
+score = 0
+
+# User answers
+user_answers = {}
+
+# Display questions
+for question, data in questions.items():
+
+    st.subheader(question)
+
+    answer = st.radio(
+        "Choose your answer:",
+        data["options"],
+        key=question
+    )
+
+    user_answers[question] = answer
+
+# Submit button
+if st.button("Submit Quiz"):
+
+    # Calculate score
+    for question, data in questions.items():
+
+        if user_answers[question] == data["answer"]:
+            score += 1
+
+    # Percentage
+    percentage = (score / len(questions)) * 100
+
+    # Display result
+    st.success(f"Your Score: {score}/{len(questions)}")
+
+    st.info(f"Percentage: {percentage}%")
+
+    # Performance message
+    if percentage >= 80:
+        st.balloons()
+        st.success("Excellent Performance!")
+
+    elif percentage >= 50:
+        st.warning("Good Job!")
+
+    else:
+        st.error("Need More Practice!")

@@ -1,0 +1,107 @@
+import streamlit as st
+import time
+
+# Title
+st.title("Python Timer Quiz App")
+
+# Questions
+questions = {
+
+    "1. What is Python?":
+    {
+        "options": ["Programming Language", "Database", "Browser", "OS"],
+        "answer": "Programming Language"
+    },
+
+    "2. Which symbol is used for comments?":
+    {
+        "options": ["#", "//", "/* */", "--"],
+        "answer": "#"
+    },
+
+    "3. Which function is used for output?":
+    {
+        "options": ["print()", "input()", "show()", "display()"],
+        "answer": "print()"
+    },
+
+    "4. Which keyword is used for loop?":
+    {
+        "options": ["for", "loop", "iterate", "repeat"],
+        "answer": "for"
+    },
+
+    "5. Which package is used for web apps?":
+    {
+        "options": ["streamlit", "numpy", "pandas", "math"],
+        "answer": "streamlit"
+    }
+}
+
+# Timer setup
+quiz_time = 30
+
+# Session state
+if "start_time" not in st.session_state:
+    st.session_state.start_time = time.time()
+
+# Calculate remaining time
+elapsed_time = int(time.time() - st.session_state.start_time)
+
+remaining_time = quiz_time - elapsed_time
+
+# Display timer
+st.header(f"Time Left: {remaining_time} seconds")
+
+# Stop quiz if time finished
+if remaining_time <= 0:
+
+    st.error("Time Over!")
+
+    st.stop()
+
+# Store score
+score = 0
+
+# Store answers
+user_answers = {}
+
+# Display questions
+for question, data in questions.items():
+
+    st.subheader(question)
+
+    answer = st.radio(
+        "Choose answer:",
+        data["options"],
+        key=question
+    )
+
+    user_answers[question] = answer
+
+# Submit button
+if st.button("Submit Quiz"):
+
+    # Calculate score
+    for question, data in questions.items():
+
+        if user_answers[question] == data["answer"]:
+            score += 1
+
+    # Result
+    st.success(f"Your Score: {score}/{len(questions)}")
+
+    percentage = (score / len(questions)) * 100
+
+    st.info(f"Percentage: {percentage}%")
+
+    # Message
+    if percentage >= 80:
+        st.balloons()
+        st.success("Excellent!")
+
+    elif percentage >= 50:
+        st.warning("Good!")
+
+    else:
+        st.error("Need Practice!")

@@ -1,0 +1,76 @@
+from flask import Flask
+import pandas as pd
+
+app = Flask(__name__)
+
+@app.route('/')
+
+def home():
+
+    # Load Excel file
+    file_path = r"D:\Atc\calls_summary.xlsx"
+
+    # Read Excel file
+    df = pd.read_excel(file_path)
+
+    # Remove extra spaces
+    df.columns = df.columns.str.strip()
+
+    # Create output text
+    output = ""
+
+    # Read row by row
+    for index, row in df.iterrows():
+
+        output += f"""
+        <p>
+        Customer Destination : {row['Customer destination']}<br>
+        Destination Prefix : {row['Destination prefix']}<br>
+        Total Customer Charge : {row['Total customer charge']}<br>
+        Total Billed Minutes : {row['Total billed minutes']}
+        </p>
+
+        <hr>
+        """
+
+    # HTML page
+    html_page = f"""
+
+    <html>
+
+    <head>
+
+        <title>Invoice Report</title>
+
+        <style>
+
+            body {{
+                font-family: Arial;
+                margin: 20px;
+            }}
+
+            p {{
+                font-size: 18px;
+                line-height: 1.8;
+            }}
+
+        </style>
+
+    </head>
+
+    <body>
+
+        <h1>Invoice Summary</h1>
+
+        {output}
+
+    </body>
+
+    </html>
+    """
+
+    return html_page
+
+if __name__ == '__main__':
+
+    app.run(debug=True)

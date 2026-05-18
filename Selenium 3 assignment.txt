@@ -1,0 +1,31 @@
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+import time
+
+# Open Chrome browser
+driver = webdriver.Chrome()
+
+# Open YouTube
+driver.get("https://www.youtube.com")
+
+# Maximize browser
+driver.maximize_window()
+
+# Wait for page load
+time.sleep(3)
+
+# Find YouTube search box
+search_box = driver.find_element(By.NAME, "search_query")
+
+# Type search text
+search_box.send_keys("ChatGPT AI Tools")
+
+# Press Enter
+search_box.send_keys(Keys.RETURN)
+
+# Wait to view results
+time.sleep(10)
+
+# Close browser
+driver.quit()

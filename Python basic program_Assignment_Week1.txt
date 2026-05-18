@@ -1,0 +1,91 @@
+Paython Basic Program:
+
+List:
+
+fruits = ['banana','apple','grape','orange']
+fruits.append('mango')
+print(fruits)
+fruits[3] = 'kiwi'
+print (fruits)
+
+
+Tuble :
+
+colour =('red','green','blue')
+print(colour)
+print(type(colour))
+print(len(colour))
+print(colour)
+
+set:
+
+Number = {1,2,3,4,5,6,7,7,8,8,9,19}
+print(Number)
+print(type(Number))
+print(len(Number))
+print(1 in Number)
+print(10 in Number)
+print(1 not in Number)
+
+Dict:
+
+college = {'name': 'Raj','Location':'Salem','Decree': 'B.E','Year':2009}
+print(college)
+print(type(college))
+print(college['name'])
+print(college['Location'])
+college['Department'] = 'ECE'
+print(college)
+
+
+If else:
+
+num = int(input("Enter a number: "))
+
+if num % 2 == 0:
+    print("Even Number")
+else:
+    print("Odd Number")
+
+
+a = int(input("Enter first number: "))
+b = int(input("Enter second number: "))
+
+if a > b:
+    print(a, "is greater")
+else:
+    print(b, "is greater")
+     
+    if a==b:
+    
+       print("Both numbers are equal")
+
+
+For loop:
+
+for i in range(1, 6):
+    print(i)
+
+While loop:
+count = 1
+
+while count <= 5:
+    print(count)
+    count += 1
+
+Fibonacci Series
+
+
+n1 = 0
+n2 = 1
+
+print(n1)
+print(n2)
+
+for i in range(3, 11):
+    n3 = n1 + n2
+    print(n3)
+
+    n1 = n2
+    n2 = n3
+
