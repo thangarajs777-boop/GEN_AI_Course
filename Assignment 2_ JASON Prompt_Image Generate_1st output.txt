@@ -1,0 +1,65 @@
+You are an Jason Prompt Engineer.
+
+Write a JSON prompt for generating a creative and realistic image for the below instructions
+
+Role/Subject: A baby frog (small frag) engaged in a fight with a spider.
+
+Composition: The scene is set on the ridge of a field featuring small grass.
+
+Action: The fight takes place at the edge of tall grass. The frog is also observing other frogs in the vicinity.
+
+Location: The setting is near a flowing river.
+
+Aesthetic: The fight should be depicted as a "clever type" confrontation between both the frog and the spider.
+
+{
+  "prompt_type": "macro_nature_photography",
+  "version": "1.0",
+  "language": "English",
+  "image_generation_prompt": {
+    "scene": {
+      "primary_subjects": [
+        {
+          "name": "Baby Frog",
+          "description": "A small, vibrant green tree froglet, showcasing alert and calculated body language.",
+          "action": "Engaged in a tense, tactical standoff. It sits poised on a weathered piece of wood at the edge of the tall grass, calculating its next move."
+        },
+        {
+          "name": "Spider",
+          "description": "A realistic wolf spider with detailed, textured legs and striped markings.",
+          "action": "Facing off against the baby frog on the same wooden surface, crouched low in a defensive, strategic posture."
+        }
+      ],
+      "composition": {
+        "framing": "Wide macro shot with a low-angle perspective",
+        "foreground": "A ridge of a field with small patches of grass, wildflowers, and a weathered log serving as the central stage for the confrontation.",
+        "midground": "The edge of a patch of tall, lush green grass where the standoff occurs.",
+        "background": "A clear, flowing river curving through the landscape under a partly cloudy sky, with distant green riverbanks.",
+        "secondary_elements": "Another frog is subtly visible perched higher up in the tall grass nearby, creating a sense of a shared environment where the main frog is observant of its surroundings."
+      }
+    },
+    "aesthetic_and_style": {
+      "style": "Hyper-realistic nature photography",
+      "tone": "Suspenseful, clever, and calculated confrontation rather than aggressive chaos",
+      "lighting": {
+        "type": "Natural daylight",
+        "description": "Bright, soft sunlight illuminating the textures of the frog's skin, the spider's hairs, and the glistening water of the river."
+      },
+      "camera_settings": {
+        "focus": "Sharp focus on the primary frog and spider confrontation",
+        "depth_of_field": "Shallow depth of field, keeping the primary duel crisp while the flowing river and distant trees softly blur into the background."
+      },
+      "color_palette": [
+        "Vibrant moss greens",
+        "Earthy log browns",
+        "River blues",
+        "Soft wildflower purples"
+      ]
+    },
+    "generation_parameters": {
+      "aspect_ratio": "16:9",
+      "realism_priority": "maximum",
+      "detail_level": "Extremely high texture detail on wildlife and foliage"
+    }
+  }
+}

@@ -1,0 +1,121 @@
+You are an expert in JSON Prompt Engineer
+
+Write a  JSON script for a video generation in Tamil and project titled "Kutty Kerala Edappadi in Poolampatti." The video should focus on the natural Kaveri water flow from Mettur to the Poolampatti dam, showcasing the authentic river landscape.
+
+Please include the following details in the script:
+
+- Title: Kutty Kerala Edappadi in Poolampatti
+- Scene Description: Natural Kaveri water flow from Mettur dam to Poolampatti
+- Visual Elements: Real footage or representation of the Kaveri river and the dam environment
+
+
+{
+  "project_type": "tamil_nature_video",
+  "project_title": "Kutty Kerala Edappadi in Poolampatti",
+  "language": "Tamil",
+  "video_style": "Cinematic Natural Documentary",
+  "duration": "2-3 Minutes",
+  "resolution": "4K",
+  "aspect_ratio": "16:9",
+  "music_style": "Soft Tamil Folk Instrumental with Nature Ambience",
+  "voiceover_language": "Tamil",
+  "voice_style": {
+    "gender": "Male",
+    "tone": "Warm, Friendly, Emotional",
+    "accent": "Tamil Native Rural Style",
+    "speed": "Medium Slow"
+  },
+  "opening_voiceover": {
+    "text_tamil": "வணக்கம் மக்களே... எங்க ஊரு குட்டி கேரளா பாருங்க... எவ்வளவு அழகா இருக்கு... இங்க இருந்துதான் காவிரி வாட்டர் flow start ஆகுது... இருபக்கமும் விவசாய தோட்டம்... அதுக்கு நடுவில் ஆறு... அருகில் சத்தியமங்கலம் காடு...",
+    "text_tanglish": "Vanakkam Makkale... Enga ooru Kutty Kerala parunga... Evvalavu azhaga irukku... Inga irundhu dhan Kavari water flow start aguthu... Irupakkamum vivasaya thottam... Athukku naduvil aaru... Arugil Saththiyamangalam forest...",
+    "emotion": "Proud and Peaceful"
+  },
+  "scenes": [
+    {
+      "scene_id": 1,
+      "scene_title": "Opening Aerial View",
+      "duration": "20 seconds",
+      "scene_description": "மேட்டூர் அணையிலிருந்து பாயும் காவிரி நதியின் இயற்கை அழகை ட்ரோன் காட்சி மூலம் காட்டுதல்.",
+      "visual_elements": [
+        "Drone shot of Kaveri river",
+        "Green agricultural fields",
+        "Morning mist over river",
+        "Wide aerial nature landscape"
+      ],
+      "camera_angle": "Aerial Wide Shot",
+      "voiceover": "வணக்கம் மக்களே... எங்க ஊரு குட்டி கேரளா பாருங்க... எவ்வளவு அழகா இருக்கு...",
+      "background_audio": [
+        "Soft flute music",
+        "Bird chirping",
+        "Natural river flow sound"
+      ]
+    },
+    {
+      "scene_id": 2,
+      "scene_title": "Kaveri River Flow",
+      "duration": "35 seconds",
+      "scene_description": "காவிரி நீர் இயற்கையாக பாயும் காட்சிகள் மற்றும் சுற்றியுள்ள பசுமை.",
+      "visual_elements": [
+        "Natural flowing river",
+        "Farm lands on both sides",
+        "Slow-motion water shots",
+        "Village greenery"
+      ],
+      "camera_angle": "Tracking River Shot",
+      "voiceover": "இங்க இருந்துதான் காவிரி வாட்டர் flow start ஆகுது... இருபக்கமும் விவசாய தோட்டம்... அதுக்கு நடுவில் ஆறு...",
+      "background_audio": [
+        "Flowing water ambience",
+        "Traditional Tamil folk instrumental"
+      ]
+    },
+    {
+      "scene_id": 3,
+      "scene_title": "Forest and Nature",
+      "duration": "25 seconds",
+      "scene_description": "சத்தியமங்கலம் காடு மற்றும் அதன் இயற்கை சூழல்.",
+      "visual_elements": [
+        "Sathiyamangalam forest hills",
+        "Birds flying",
+        "Dense greenery",
+        "River meeting forest landscape"
+      ],
+      "camera_angle": "Cinematic Landscape Shot",
+      "voiceover": "அருகில் சத்தியமங்கலம் காடு... இயற்கையின் உண்மையான அழகை இங்கே பார்க்கலாம்...",
+      "background_audio": [
+        "Forest ambience",
+        "Wind sounds",
+        "Soft veena music"
+      ]
+    },
+    {
+      "scene_id": 4,
+      "scene_title": "Closing Scene",
+      "duration": "15 seconds",
+      "scene_description": "மாலை நேர காவிரி நதியின் அழகுடன் வீடியோ நிறைவு.",
+      "visual_elements": [
+        "Golden sunset over river",
+        "Reflection on water",
+        "Slow cinematic fade out",
+        "Project title overlay"
+      ],
+      "camera_angle": "Slow Motion Wide Shot",
+      "voiceover": "இது தான் எங்க ஊரு... Kutty Kerala Edappadi in Poolampatti...",
+      "background_audio": [
+        "Peaceful instrumental music",
+        "Nature ambience"
+      ]
+    }
+  ],
+  "color_tone": "Natural Green and Blue",
+  "editing_style": "Smooth cinematic transitions with natural river aesthetics",
+  "text_overlay": {
+    "font_style": "Tamil Traditional",
+    "animation": "Fade In / Fade Out",
+    "title_display": "Kutty Kerala Edappadi in Poolampatti"
+  },
+  "final_output": {
+    "format": "MP4",
+    "quality": "Ultra HD",
+    "subtitle_language": "Tamil"
+  }
+}
