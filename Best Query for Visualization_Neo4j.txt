@@ -1,0 +1,5 @@
+Best Query for Visualization
+
+MATCH p=()-[r]->()
+RETURN p
+LIMIT 100

@@ -1,0 +1,546 @@
+"""
+India vs Global Economy Analysis Dashboard
+------------------------------------------
+
+This script:
+1. Simulates Traditional RAG vs Knowledge Graph RAG comparison
+2. Builds a Knowledge Graph using Neo4j
+3. Generates Comparison Charts
+4. Visualizes Economic Relationships
+5. Displays India & Global Economy Insights
+
+Requirements:
+pip install matplotlib neo4j rich networkx
+
+Run:
+python economy_kg_demo.py
+"""
+
+import os
+import time
+import random
+import asyncio
+import matplotlib.pyplot as plt
+import networkx as nx
+
+from dotenv import load_dotenv
+from neo4j import GraphDatabase
+from rich.console import Console
+from rich.panel import Panel
+from rich.prompt import Prompt
+from rich.table import Table
+
+console = Console()
+
+# -------------------------------------------------------------------
+# CONFIGURATION (loaded from .env — must match docker-compose.yml)
+# -------------------------------------------------------------------
+
+load_dotenv()
+
+NEO4J_URI = os.getenv("NEO4J_URI", "bolt://localhost:7687")
+NEO4J_USER = os.getenv("NEO4J_USERNAME", "neo4j")
+NEO4J_PASSWORD = os.getenv("NEO4J_PASSWORD", "knowledge_graph_demo_2024")
+
+# -------------------------------------------------------------------
+# SAMPLE QUESTIONS
+# -------------------------------------------------------------------
+
+QUESTIONS = [
+    "India GDP Growth",
+    "Global Inflation",
+    "India vs China Economy",
+    "Interest Rates Impact",
+    "Digital Economy",
+    "Trade Growth",
+    "Employment Trends"
+]
+
+# -------------------------------------------------------------------
+# ECONOMIC DATA
+# -------------------------------------------------------------------
+
+INDIA_DATA = {
+    "GDP Growth": "6.8%",
+    "Inflation": "4.9%",
+    "Repo Rate": "6.50%",
+    "Exports": "8.2%",
+    "Digital Economy": "15%",
+    "Forex Reserves": "$645B"
+}
+
+GLOBAL_DATA = {
+    "Global GDP": "3.1%",
+    "Oil Prices": "$82",
+    "US Inflation": "3.4%",
+    "China Growth": "4.8%",
+    "Interest Rates": "High",
+    "Trade Growth": "2.6%"
+}
+
+# -------------------------------------------------------------------
+# NEO4J CLASS
+# -------------------------------------------------------------------
+
+class EconomyKnowledgeGraph:
+
+    def __init__(self, uri, user, password):
+
+        self.driver = GraphDatabase.driver(
+            uri,
+            auth=(user, password)
+        )
+
+    def close(self):
+        self.driver.close()
+
+    # ---------------------------------------------------------------
+
+    def clear_graph(self):
+
+        with self.driver.session() as session:
+            session.run("MATCH (n) DETACH DELETE n")
+
+    # ---------------------------------------------------------------
+
+    def build_graph(self):
+
+        queries = [
+
+            """
+            CREATE (i:Country {name:'India'})
+            CREATE (g:Economy {name:'GDP Growth', value:'6.8%'})
+            CREATE (i)-[:HAS_GROWTH]->(g)
+            """,
+
+            """
+            CREATE (usa:Country {name:'USA'})
+            CREATE (inflation:Economy {name:'Inflation', value:'3.4%'})
+            CREATE (usa)-[:HAS_INFLATION]->(inflation)
+            """,
+
+            """
+            CREATE (india:Country {name:'India'})
+            CREATE (digital:Sector {name:'Digital Economy'})
+            CREATE (india)-[:INVESTS_IN]->(digital)
+            """,
+
+            """
+            CREATE (china:Country {name:'China'})
+            CREATE (trade:Economy {name:'Trade'})
+            CREATE (china)-[:DEPENDS_ON]->(trade)
+            """,
+
+            """
+            CREATE (world:Country {name:'Global'})
+            CREATE (interest:Economy {name:'Interest Rates'})
+            CREATE (world)-[:AFFECTED_BY]->(interest)
+            """
+        ]
+
+        with self.driver.session() as session:
+
+            for query in queries:
+                session.run(query)
+
+    # ---------------------------------------------------------------
+
+    def get_statistics(self):
+
+        with self.driver.session() as session:
+
+            nodes = session.run(
+                "MATCH (n) RETURN count(n) AS count"
+            ).single()["count"]
+
+            relationships = session.run(
+                "MATCH ()-[r]->() RETURN count(r) AS count"
+            ).single()["count"]
+
+            return {
+                "nodes": nodes,
+                "relationships": relationships
+            }
+
+    # ---------------------------------------------------------------
+
+    def fetch_graph(self):
+
+        with self.driver.session() as session:
+
+            result = session.run(
+                """
+                MATCH (a)-[r]->(b)
+                RETURN a.name AS source,
+                       type(r) AS relation,
+                       b.name AS target
+                """
+            )
+
+            data = []
+
+            for record in result:
+                data.append((
+                    record["source"],
+                    record["relation"],
+                    record["target"]
+                ))
+
+            return data
+
+
+# -------------------------------------------------------------------
+# DISPLAY FUNCTIONS
+# -------------------------------------------------------------------
+
+def show_india_economy():
+
+    table = Table(title="India Economy")
+
+    table.add_column("Indicator")
+    table.add_column("Value")
+
+    for k, v in INDIA_DATA.items():
+        table.add_row(k, v)
+
+    console.print(table)
+
+
+def show_global_economy():
+
+    table = Table(title="Global Economy")
+
+    table.add_column("Indicator")
+    table.add_column("Value")
+
+    for k, v in GLOBAL_DATA.items():
+        table.add_row(k, v)
+
+    console.print(table)
+
+
+# -------------------------------------------------------------------
+# COMPARISON CHARTS
+# -------------------------------------------------------------------
+
+def plot_comparison_metrics(results, kg_stats):
+
+    questions = [f"Q{i+1}" for i in range(len(results))]
+
+    trad_times = [r["traditional_time"] for r in results]
+    kg_times = [r["kg_time"] for r in results]
+
+    trad_chunks = [r["traditional_chunks"] for r in results]
+    kg_facts = [r["kg_facts"] for r in results]
+
+    fig, axs = plt.subplots(2, 2, figsize=(15, 9))
+
+    ax1, ax2, ax3, ax4 = axs.flatten()
+
+    # ---------------------------------------------------------------
+    # Query Time
+    # ---------------------------------------------------------------
+
+    x = range(len(questions))
+
+    ax1.bar(x, trad_times, width=0.4, label="Traditional RAG")
+    ax1.bar(
+        [i + 0.4 for i in x],
+        kg_times,
+        width=0.4,
+        label="Knowledge Graph RAG"
+    )
+
+    ax1.set_title("Query Time Comparison")
+    ax1.set_xticks([i + 0.2 for i in x])
+    ax1.set_xticklabels(questions)
+    ax1.legend()
+
+    # ---------------------------------------------------------------
+    # Retrieved Items
+    # ---------------------------------------------------------------
+
+    ax2.bar(x, trad_chunks, width=0.4, label="RAG Chunks")
+    ax2.bar(
+        [i + 0.4 for i in x],
+        kg_facts,
+        width=0.4,
+        label="KG Facts"
+    )
+
+    ax2.set_title("Retrieved Items Comparison")
+    ax2.set_xticks([i + 0.2 for i in x])
+    ax2.set_xticklabels(questions)
+    ax2.legend()
+
+    # ---------------------------------------------------------------
+    # KG Statistics
+    # ---------------------------------------------------------------
+
+    ax3.bar(
+        ["Nodes", "Relationships"],
+        [
+            kg_stats["nodes"],
+            kg_stats["relationships"]
+        ]
+    )
+
+    ax3.set_title("Knowledge Graph Statistics")
+
+    # ---------------------------------------------------------------
+    # Average Summary
+    # ---------------------------------------------------------------
+
+    avg_trad = sum(trad_times) / len(trad_times)
+    avg_kg = sum(kg_times) / len(kg_times)
+
+    ax4.bar(
+        ["Traditional Avg", "KG Avg"],
+        [avg_trad, avg_kg]
+    )
+
+    ax4.set_title("Average Metrics Summary")
+
+    plt.tight_layout()
+
+    plt.savefig("comparison_metrics.png")
+
+    console.print(
+        "[green]Saved: comparison_metrics.png[/green]"
+    )
+
+    plt.show()
+
+
+# -------------------------------------------------------------------
+# GRAPH VISUALIZATION
+# -------------------------------------------------------------------
+
+def visualize_graph(graph_data):
+
+    G = nx.DiGraph()
+
+    for source, relation, target in graph_data:
+
+        G.add_edge(source, target, label=relation)
+
+    plt.figure(figsize=(10, 8))
+
+    pos = nx.spring_layout(G)
+
+    nx.draw(
+        G,
+        pos,
+        with_labels=True,
+        node_size=3000,
+        font_size=10
+    )
+
+    edge_labels = nx.get_edge_attributes(G, 'label')
+
+    nx.draw_networkx_edge_labels(
+        G,
+        pos,
+        edge_labels=edge_labels
+    )
+
+    plt.title("India & Global Economy Knowledge Graph")
+
+    plt.savefig("knowledge_graph.png")
+
+    console.print(
+        "[green]Saved: knowledge_graph.png[/green]"
+    )
+
+    plt.show()
+
+
+# -------------------------------------------------------------------
+# RAG SIMULATION
+# -------------------------------------------------------------------
+
+async def run_comparison():
+
+    results = []
+
+    for question in QUESTIONS:
+
+        console.print(
+            f"\n[cyan]Processing:[/cyan] {question}"
+        )
+
+        # Traditional RAG simulation
+        trad_time = round(random.uniform(1, 5), 2)
+
+        # KG RAG simulation
+        kg_time = round(random.uniform(2, 8), 2)
+
+        result = {
+            "question": question,
+            "traditional_time": trad_time,
+            "kg_time": kg_time,
+            "traditional_chunks": 4,
+            "kg_facts": 10
+        }
+
+        results.append(result)
+
+        await asyncio.sleep(0.5)
+
+    return results
+
+
+# -------------------------------------------------------------------
+# MAIN PROGRAM
+# -------------------------------------------------------------------
+
+async def main():
+
+    console.print(
+        Panel.fit(
+            "[bold green]India vs Global Economy KG-RAG Demo[/bold green]\n"
+            "Traditional RAG vs Knowledge Graph RAG",
+            border_style="green"
+        )
+    )
+
+    # ---------------------------------------------------------------
+    # Connect Neo4j
+    # ---------------------------------------------------------------
+
+    console.print("\n[yellow]Connecting Neo4j...[/yellow]")
+
+    try:
+        kg = EconomyKnowledgeGraph(
+            NEO4J_URI,
+            NEO4J_USER,
+            NEO4J_PASSWORD
+        )
+        with kg.driver.session() as session:
+            session.run("RETURN 1")
+    except Exception as e:
+        console.print(
+            "[bold red]Neo4j connection failed.[/bold red]\n"
+            f"URI: {NEO4J_URI}\n"
+            f"User: {NEO4J_USER}\n"
+            "Check NEO4J_PASSWORD in .env matches docker-compose "
+            "(default: knowledge_graph_demo_2024).\n"
+            "If you changed the password after first start, reset the volume:\n"
+            "  docker-compose down -v && docker-compose up -d"
+        )
+        raise e
+
+    # ---------------------------------------------------------------
+    # Build Graph
+    # ---------------------------------------------------------------
+
+    console.print(
+        "[yellow]Building Knowledge Graph...[/yellow]"
+    )
+
+    kg.clear_graph()
+    kg.build_graph()
+
+    stats = kg.get_statistics()
+
+    console.print(
+        f"[green]Nodes:[/green] {stats['nodes']}"
+    )
+
+    console.print(
+        f"[green]Relationships:[/green] {stats['relationships']}"
+    )
+
+    # ---------------------------------------------------------------
+    # Main Menu
+    # ---------------------------------------------------------------
+
+    while True:
+
+        console.print("\n" + "=" * 70)
+
+        console.print(
+            "[bold cyan]Economy Analysis Menu[/bold cyan]"
+        )
+
+        console.print("=" * 70)
+
+        console.print("1. India Economy")
+        console.print("2. Global Economy")
+        console.print("3. Run RAG Comparison")
+        console.print("4. Visualize Knowledge Graph")
+        console.print("5. Show Neo4j Statistics")
+        console.print("6. Exit")
+
+        choice = Prompt.ask(
+            "\nSelect Option",
+            choices=["1", "2", "3", "4", "5", "6"]
+        )
+
+        # -----------------------------------------------------------
+
+        if choice == "1":
+
+            show_india_economy()
+
+        # -----------------------------------------------------------
+
+        elif choice == "2":
+
+            show_global_economy()
+
+        # -----------------------------------------------------------
+
+        elif choice == "3":
+
+            results = await run_comparison()
+
+            plot_comparison_metrics(
+                results,
+                stats
+            )
+
+        # -----------------------------------------------------------
+
+        elif choice == "4":
+
+            graph_data = kg.fetch_graph()
+
+            visualize_graph(graph_data)
+
+        # -----------------------------------------------------------
+
+        elif choice == "5":
+
+            stats = kg.get_statistics()
+
+            console.print("\n[bold cyan]Neo4j Statistics[/bold cyan]")
+
+            console.print(
+                f"Nodes: {stats['nodes']}"
+            )
+
+            console.print(
+                f"Relationships: {stats['relationships']}"
+            )
+
+        # -----------------------------------------------------------
+
+        elif choice == "6":
+
+            console.print(
+                "\n[bold green]Exiting Program...[/bold green]"
+            )
+
+            kg.close()
+
+            break
+
+
+# -------------------------------------------------------------------
+# ENTRY POINT
+# -------------------------------------------------------------------
+
+if __name__ == "__main__":
+
+    asyncio.run(main())
